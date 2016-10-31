@@ -7,6 +7,9 @@ import com.mycompany.app.entity.EmployeeEntity;
 import com.mycompany.app.service.EmployeeService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Transactional(readOnly = true)
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -15,6 +18,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee getEmployeeById(long id) {
         return EmployeeConverter.toEmployeeAllFields(employeeDAO.getById(id));
+    }
+
+    @Override
+    public List<Employee> getEmployeeBySalary(int salary, int start, int pageSize) {
+        List<EmployeeEntity> entityList = employeeDAO.getEmployeeBySalary(salary, start, pageSize);
+        List<Employee> employeeList = new ArrayList<>(entityList.size());
+        for (EmployeeEntity employeeEntity : entityList) {
+            employeeList.add(EmployeeConverter.toEmployeeAllFields(employeeEntity));
+        }
+        return employeeList;
     }
 
     public EmployeeDAO getEmployeeDAO() {

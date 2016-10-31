@@ -39,6 +39,13 @@ public class TestSelectEmployee {
 
     }
 
+    @Test
+    public void getBySalaryPaging() {
+        List<Employee> employeesBySalary = employeeService.getEmployeeBySalary(5500, 0, 10);
+
+        employeesBySalary.forEach(System.out::println);
+    }
+
     public EmployeeService getEmployeeService() {
         return employeeService;
     }
