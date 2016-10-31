@@ -1,7 +1,7 @@
 package com.mycompany.app.service;
 
-import com.mycompany.app.entity.EmployeeEntity;
+import com.mycompany.app.dto.Employee;
 
 public interface EmployeeService {
-    EmployeeEntity getEmployeeById(long id);
+    Employee getEmployeeById(long id);
 }

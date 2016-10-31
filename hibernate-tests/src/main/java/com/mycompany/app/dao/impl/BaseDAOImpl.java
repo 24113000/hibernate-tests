@@ -1,7 +1,6 @@
 package com.mycompany.app.dao.impl;
 
 import com.mycompany.app.dao.BaseDAO;
-import com.mycompany.app.entity.EmployeeEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,7 +32,7 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO
     public T getById(ID id) {
         Session session = getSession();
         //noinspection unchecked
-        return (T) session.get(EmployeeEntity.class, id);
+        return (T) session.get(entityClass, id);
     }
 
     @Override

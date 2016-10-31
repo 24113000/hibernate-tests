@@ -47,10 +47,6 @@ public class TaskEntity {
     @Column(name = "id_employee", updatable = false, insertable = false)
     private Long employeeId;
 
-    public TaskEntity(String description) {
-        this.description = description;
-    }
-
     public EmployeeEntity getEmployee() {
         return employee;
     }
