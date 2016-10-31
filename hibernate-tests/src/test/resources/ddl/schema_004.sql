@@ -1,0 +1,2 @@
+ALTER TABLE task
+  ADD COLUMN version NUMBER (19) DEFAULT 0;
