@@ -1,6 +1,8 @@
 package com.mycompany.app;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.mycompany.app.datasource.sql.QueryCountInfo;
+import com.mycompany.app.datasource.sql.QueryCountInfoHolder;
 import com.mycompany.app.dto.Employee;
 import com.mycompany.app.dto.Skill;
 import com.mycompany.app.entity.EmployeeEntity;
@@ -18,15 +20,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
-@TestExecutionListeners({
-        TransactionalTestExecutionListener.class,
-        DependencyInjectionTestExecutionListener.class,
-        DbUnitTestExecutionListener.class,
-        SqlScriptsTestExecutionListener.class
-})
-public class TestSelectEmployee {
+public class TestSelectEmployee extends BaseTest {
 
     @Autowired
     private EmployeeService employeeService;
@@ -36,13 +30,11 @@ public class TestSelectEmployee {
         Employee employee = employeeService.getEmployeeById(1);
 
         System.out.println(employee.toString());
-
     }
 
     @Test
     public void getBySalaryPaging() {
-        List<Employee> employeesBySalary = employeeService.getEmployeeBySalary(5500, 0, 10);
-
+        List<Employee> employeesBySalary = employeeService.getEmployeeBySalary(5500, 10, 130);
         employeesBySalary.forEach(System.out::println);
     }
 
