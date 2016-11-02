@@ -36,6 +36,34 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO
     }
 
     @Override
+    public T loadById(ID id) {
+        Session session = getSession();
+        //noinspection unchecked
+        return (T) session.load(entityClass, id);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public T merge(T entity) {
+        Session session = getSession();
+        //noinspection unchecked
+        return (T) session.merge(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void update(T entity) {
+        Session session = getSession();
+        session.update(entity);
+    }
+
+    @Override
+    public void persist(T entity) {
+        Session session = getSession();
+        session.persist(entity);
+    }
+
+    @Override
     public List<T> getAll() {
         Session session = getSession();
         Criteria criteria = session.createCriteria(entityClass);
@@ -52,11 +80,13 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO
         return criteria.list();
     }
 
+    @Transactional(readOnly = false)
     @Override
-    public T save(T entity) {
+    public Long save(T entity) {
         Session session = getSession();
-        session.merge(entity); //TODO Q
-        return entity;
+        Serializable saved = session.save(entity);
+        //noinspection unchecked
+        return (Long) saved;
     }
 
     @Override

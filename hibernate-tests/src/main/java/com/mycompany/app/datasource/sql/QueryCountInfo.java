@@ -39,4 +39,15 @@ public class QueryCountInfo {
         return selectCount + insertCount + updateCount + deleteCount + callCount;
     }
 
+    public int countInserts() {
+        return insertCount;
+    }
+
+    public int countSelect() {
+        return selectCount;
+    }
+
+    public int countUpdate() {
+        return updateCount;
+    }
 }

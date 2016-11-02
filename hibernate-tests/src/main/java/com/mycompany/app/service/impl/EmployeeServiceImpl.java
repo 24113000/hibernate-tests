@@ -30,6 +30,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeList;
     }
 
+    @Transactional(readOnly = false)
+    @Override
+    public Long save(EmployeeEntity employeeEntity) {
+        Long saveId = employeeDAO.save(employeeEntity);
+        System.out.println("End method. Saved id: " + saveId);
+        return saveId;
+    }
+
+    @Transactional(readOnly = false)
+    @Override
+    public Long merge(EmployeeEntity employeeEntity) {
+        EmployeeEntity merged = employeeDAO.merge(employeeEntity);
+        System.out.println("End method. Saved id: " + merged.getId());
+        return merged.getId();
+    }
+
+
     public EmployeeDAO getEmployeeDAO() {
         return employeeDAO;
     }
