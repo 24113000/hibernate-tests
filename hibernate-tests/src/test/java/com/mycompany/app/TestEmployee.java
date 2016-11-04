@@ -36,7 +36,7 @@ public class TestEmployee extends BaseTest {
     }
 
     @Test
-    public void testMerge_if_object_dont_exitst(){
+    public void testMerge_new_object() {
         EmployeeEntity newEmployee = new EmployeeEntity();
         newEmployee.setSalary(10000);
         newEmployee.setName("TestMerge");
@@ -76,7 +76,7 @@ public class TestEmployee extends BaseTest {
     }
 
     @Test
-    public void testSave_new_object(){
+    public void testSave_new_object() {
         EmployeeEntity newEmployee = new EmployeeEntity();
         newEmployee.setSalary(10000);
         newEmployee.setName("TestSave");
@@ -87,12 +87,12 @@ public class TestEmployee extends BaseTest {
     }
 
     @Test
-    public void testSave_existed_object(){
+    public void testSave_existed_object() {
         EmployeeEntity employee = employeeDAO.getById(1L);
         Long savedId = employeeDAO.save(employee);
         QueryCountInfo queryInfo = QueryCountInfoHolder.getQueryInfo();
         //assertEquals(1, queryInfo.countUpdate());
-        assertEquals(3, queryInfo.countSelect());//TODO #Q why does it select third time?
+        assertEquals(3, queryInfo.countSelect());//TODO #Q why does it do select third time?
     }
 
     @Test(expected = TransientObjectException.class)
@@ -105,10 +105,29 @@ public class TestEmployee extends BaseTest {
     }
 
     @Test
-    public void testUpdate_existed_object(){
+    public void testUpdate_existed_object() {
         EmployeeEntity employee = employeeDAO.getById(1L);
         employeeDAO.update(employee);
         QueryCountInfo queryInfo = QueryCountInfoHolder.getQueryInfo();
         assertEquals(1, queryInfo.countUpdate());
+    }
+
+    @Test
+    public void testPersist_new_object() {
+        EmployeeEntity newEmployee = new EmployeeEntity();
+        newEmployee.setSalary(10000);
+        newEmployee.setName("TestMerge");
+        newEmployee.setExperience(20);
+
+        employeeDAO.persist(newEmployee);
+
+        QueryCountInfo queryInfo = QueryCountInfoHolder.getQueryInfo();
+        assertEquals(1, queryInfo.countInserts());
+    }
+
+    @Test(expected = Exception.class)
+    public void testPersist_existed_object() {
+        EmployeeEntity employee = employeeDAO.getById(1L);
+        employeeDAO.persist(employee);
     }
 }

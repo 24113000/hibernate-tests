@@ -58,6 +58,7 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void persist(T entity) {
         Session session = getSession();
         session.persist(entity);
