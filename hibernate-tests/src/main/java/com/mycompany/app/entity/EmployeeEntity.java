@@ -1,5 +1,9 @@
 package com.mycompany.app.entity;
 
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,10 +28,16 @@ public class EmployeeEntity {
     private Integer salary;
 
     @OneToMany(mappedBy = "employee")
+    @BatchSize(size = 6)
     private List<TaskEntity> tasks = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee")
+    @BatchSize(size = 6)
     private List<SkillEntity> skills = new ArrayList<>();
+
+    @OneToMany(mappedBy = "employee")
+    @Fetch(FetchMode.SUBSELECT)//Bug! it will sub select all records without paging
+    private List<SkillEntity> skillsSubselect = new ArrayList<>();
 
     public List<TaskEntity> getTasks() {
         return Collections.unmodifiableList(tasks);
@@ -95,5 +105,13 @@ public class EmployeeEntity {
 
     public void setSkills(List<SkillEntity> skills) {
         this.skills = skills;
+    }
+
+    public List<SkillEntity> getSkillsSubselect() {
+        return skillsSubselect;
+    }
+
+    public void setSkillsSubselect(List<SkillEntity> skillsSubselect) {
+        this.skillsSubselect = skillsSubselect;
     }
 }

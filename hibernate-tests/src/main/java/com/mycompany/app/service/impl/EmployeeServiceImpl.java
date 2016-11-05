@@ -4,6 +4,7 @@ import com.mycompany.app.converter.EmployeeConverter;
 import com.mycompany.app.dao.EmployeeDAO;
 import com.mycompany.app.dto.Employee;
 import com.mycompany.app.entity.EmployeeEntity;
+import com.mycompany.app.entity.SkillEntity;
 import com.mycompany.app.service.EmployeeService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee getEmployeeById(long id) {
-        return EmployeeConverter.toEmployeeAllFields(employeeDAO.getById(id));
+        EmployeeEntity byId = employeeDAO.getById(id);
+        return EmployeeConverter.toEmployeeAllFields(byId);
     }
 
     @Override
@@ -44,6 +46,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeEntity merged = employeeDAO.merge(employeeEntity);
         System.out.println("End method. Saved id: " + merged.getId());
         return merged.getId();
+    }
+
+    @Override
+    public List<Employee> getEmployeeBySalaryWithSubSelect(int salary, int start, int pageSize) {
+        List<EmployeeEntity> entities = employeeDAO.getEmployeeBySalary(salary, start, pageSize);
+        List<Employee> employeeList = new ArrayList<>(0);
+        for (EmployeeEntity employeeEntity : entities) {
+            List<SkillEntity> subselect = employeeEntity.getSkillsSubselect();
+            subselect.size();
+        }
+
+        return employeeList;
     }
 
 

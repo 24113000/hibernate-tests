@@ -14,4 +14,6 @@ public interface EmployeeService {
     Long save(EmployeeEntity employeeEntity);
 
     Long merge(EmployeeEntity employeeEntity);
+
+    List<Employee> getEmployeeBySalaryWithSubSelect(int salary, int start, int pageSize);
 }
